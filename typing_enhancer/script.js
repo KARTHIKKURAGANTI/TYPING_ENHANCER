@@ -1,5 +1,5 @@
 let quoteE1=document.getElementById("quote");
-let iptxtE1=document.getElementById("input box");
+let iptxtE1=document.getElementById("inputBox");
 let timeE1=document.getElementById("time");
 let wpmE1=document.getElementById("wpm");
 let accE1=document.getElementById("accuracy");
@@ -19,7 +19,7 @@ function loader(){
         let index=Math.floor(Math.random()*quotebox.length)
         quoteE1.innerHTML=quotebox[index];
 
-        let i=10
+        let i=60
         function counter()
             {
                 i-=1;
@@ -35,39 +35,42 @@ function loader(){
         iptxtE1.disabled = false;
         iptxtE1.value="";
         let timer=setInterval(counter,1000);
+        resrtE1.innerHTML="RESTART";
 
 
-        function metrics()
-        {
-            let ans=iptxtE1.value;
-            let wpm=ans.length;
-            let mistakes=countMistakes();
-            let accuracy=`${acc()}%`;
-            
-            
-            
-            function acc()
+function metrics(){
+    let ans=iptxtE1.value;
+    let wpm=ans.length;
+    let mistakes=countMistakes();
+    let accuracy=`${acc()}%`;
+    
+    
+    
+    function acc()
+    {
+        if(wpm==0){return 100.00}
+        return (((wpm-mistakes)/wpm)*100).toFixed(2);
+    }
+
+    function countMistakes()
+    {
+        let computerStr=quotebox[index].slice(0,wpm);
+        let count=0;
+        for(let i=0;i<wpm;i++)
             {
-                return (((wpm-mistakes)/wpm)*100).toFixed(2);
+            if(computerStr[i]!=ans[i])
+                {
+                count+=1;
+                }
             }
-        
-            function countMistakes()
-            {
-                let computerStr=quotebox[index].slice(0,wpm);
-                let count=0;
-                for(let i=0;i<wpm;i++)
-                    {
-                    if(computerStr[i]!=ans[i])
-                        {
-                        count+=1;
-                        }
-                    }
-                return count;
-            }
-        
-            wpmE1.innerHTML=wpm;
-            accE1.innerHTML=accuracy;
-            mistakesE1.innerHTML=mistakes;
-        }
+        return count;
+    }
+
+    wpmE1.innerHTML=wpm;
+    accE1.innerHTML=accuracy;
+    mistakesE1.innerHTML=mistakes;
+}
 
 }
+
+
